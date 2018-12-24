@@ -10,19 +10,17 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 //a Hash function converts data of any size into a string of fiexed size, (32 character)
 //a small change in the data will result in a complete different hash.
+// A hash function is considered  "collision resistant" when it is very hard to find two inputs to the same output
+// There are many different hash function here is a few: MD5 (message digest), SHA256 (Secure Hash algorithm)
 public class Main {
 	static Integer autoIncreate = 0;
 
 	public static void main(String[] args) throws NoSuchAlgorithmException {
-		// TODO Auto-generated method stub
 		String string = "Hello";
 		String md5 = DigestUtils.md5Hex(string);
 		
 		//System.out.println(md5.toString());
 		
-		System.out.println("----------");
-		String string2 = "Nguyen Viet Quan";
-		System.out.println(string2.startsWith("Ng"));
 		
 		//7a6d1b13498fb5b3085b2fd887933575
 		//b83099b8ce596f31f2f60c8fd4d72826
