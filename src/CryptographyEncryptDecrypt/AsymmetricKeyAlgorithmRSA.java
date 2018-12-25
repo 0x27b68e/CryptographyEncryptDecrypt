@@ -2,6 +2,7 @@ package CryptographyEncryptDecrypt;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.InvalidKeyException;
@@ -13,6 +14,7 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 import java.util.Scanner;
@@ -68,9 +70,10 @@ public class AsymmetricKeyAlgorithmRSA {
 			System.out.println("Enter the text to encrypt using publicKey and send to server: ");
 			String text = scanner.nextLine();
 			// start to encryt
-			System.out.println(text + " encrypted and can send through network securely ^^: \n" + encrypt(text));
+			System.out.println(text + " encrypted and can send through network securely ^^: \n");
+			System.out.println("Encrypted text is :" + encrypt(text));
 			
-			
+			System.out.println("Server will use private key to decrypt and text will :" + decrypt(encrypt(text)));
 			
 		} catch (NoSuchAlgorithmException | IOException e) {
 			// TODO Auto-generated catch block;
@@ -78,36 +81,6 @@ public class AsymmetricKeyAlgorithmRSA {
 		}
 
 	}
-	
-	/*public static void main(String[] args) {
-		// Read publickey.rsa file 
-					FileInputStream fileInputStream;
-					try {
-						fileInputStream = new FileInputStream("D://publickey.rsa");
-						int available = fileInputStream.available();
-						System.out.println(available);
-						byte[] b = new byte[available];
-						fileInputStream.read(b);
-						System.out.println(new String(b));
-						
-						X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(b);
-						KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-						PublicKey publicKey = keyFactory.generatePublic(x509EncodedKeySpec);
-						String string2 = publicKey.toString();
-						System.out.println(string2);
-						
-						Cipher cipher = Cipher.getInstance("RSA");
-						//init cipher with ENCRYPT_MODE
-						cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-						byte[] doFinal = cipher.doFinal("Hello world".getBytes());
-						System.out.println("Hello world after encrypt with public key: " + Base64.getEncoder().encodeToString(doFinal));
-						
-						
-					} catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-	}*/
 	
 	public static String encrypt(String text) {
 		try {
@@ -152,6 +125,46 @@ public class AsymmetricKeyAlgorithmRSA {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static String decrypt(String encryptedText) {
+		//For decryption we will be using private key 
+		try {
+			FileInputStream fileInputStream = new FileInputStream("D://server/privateKey.rsa");
+			byte[] byteArray = new byte[fileInputStream.available()];
+			fileInputStream.read(byteArray);
+			fileInputStream.close();
+			
+			// By default, the privateKey.rsa is generated in PKCS#8 format as below,
+			//	*†H†÷
+			// ‚a0‚]  ±DÖíX4óŽ7.àú{%%—(ª<&?Ž%=D1ø	Ê+¤6>
+			//ÀƒÕMÙ+‚º'/þr‡°H«ÅqN›…¨ÏçÛtvñEì¶\¯{wÿÌÁ#D÷IÄ+f5À˜Ò·ÊÐÑf 'otÿýƒg•nã¨ÿ…¤Æ•ÃßF‘Å  ¦“xÿ›ñ Ão u[¼ÔŸ=Útªˆ,ÙaGa¡÷¸È	`Óêæ-÷ã86+
+			//XûêD(â«·w»)ZÁNŽ6äu¿D5]héÝE¸Ý•kÓøÜÐ*Mj¯_QaÞY­ªåÐ»Žë]áNð‘Žç ÓÖ>ƒàšéÕÚŽ¨ÍN|ðeA í½1}€Ó,®×X#C(¢]øâ¥÷äÇêg™9RŒ¨ÂE¯{Êš!gb‰¯yRåÆQäw@/ÄJÏBbÑ0v÷A ¾³Æ¡(3ädìfN°J¡áåÒ
+			//TîÁ4( ³¹JYÜ}jƒÁtQÑÿßÆXáÉc‘ ÖÞ<êèmžO ¢#A ¹ö•\$6$:/P~dÕGY•l'€˜sa¨V’.»˜J6”¼ÈÐB¤°4r²Zõž.é 5Ô‰gYÊ§Ö,v‘‘@Ÿÿð!„žø&hƒ0‹Ã‡Œ1?Û~Ä’¨‘ü‘ìã…_H-Ðn‡C§|Z2Xyc‹Y›’Ì¶2Gß$¨ª¥O@ 8²á"ÁÑr×ˆÉÕQs`…þšlYÞ*M¿¾1^&þÄï-E‘h´.@¿$¬`F½:£ì½€ÕºÊÑUB^‰ÏM
+			
+			// So before I decrypt the encryptedText, I generate the private key from base64 encoded string using PKCS8EncodedKeySpec 
+			// friendly format, I will use PKCS8EncodedKeySpec class (corresponding X509EncodedKeySpec for publickey).
+			PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(byteArray);
+			// Using KeyFactory to create the new private key
+			PrivateKey generatePrivate = KeyFactory.getInstance("RSA").generatePrivate(pkcs8EncodedKeySpec);
+			System.out.println("Private key from D://server folder is " + Base64.getEncoder().encodeToString(generatePrivate.toString().getBytes()));
+			//Now, new private will have format as below:
+			//c3VuLnNlY3VyaXR5LnJzYS5SU0FQcml2YXRlQ3J0S2V5SW1wbEBmZmZhMWY1ZQ==
+			
+			//ok, now I have friendly private key, I will start to decrypt the encryptedText
+			Cipher cipher = Cipher.getInstance("RSA");
+			cipher.init(Cipher.DECRYPT_MODE, generatePrivate);
+			//Base64 encoded RSA private key for decryption.
+			byte[] doFinal = cipher.doFinal(Base64.getDecoder().decode(encryptedText.getBytes()));
+			Base64.getEncoder().encodeToString(doFinal);
+			return new String(doFinal);
+			
+		} catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return encryptedText;
 	}
 
 }
