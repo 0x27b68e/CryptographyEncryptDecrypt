@@ -21,11 +21,12 @@ public class SymmetricKeyAlgorithm {
 	}
 	
 	public static String initVector = "AAAAAAAAAAAAAAAA"; //chuổi bất kì 16 kí tự
-	public static String key = "BBBBBBBBBBBBBBBB"; // chuổi bất kì 16 kí tự
+	public static String key = "BBBBBBBBBBBBBBBB";
+	public static String key2 = "BBBBBBBBBBBBBBBC";// chuổi bất kì 16 kí tự
 	public static String encrypt(String text) {
 		
 		try {
-			IvParameterSpec ivParameterSpec = new IvParameterSpec(initVector.getBytes());
+			IvParameterSpec ivParameterSpec = new IvParameterSpec(initVector.getBytes()); // random purpose
 			SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(), "AES"); // use Advanced Encrypt Standard
 			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
 			cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, ivParameterSpec);
@@ -48,6 +49,26 @@ public class SymmetricKeyAlgorithm {
 		try {
 			IvParameterSpec ivParameterSpec = new IvParameterSpec(initVector.getBytes());
 			SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(), "AES");
+			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+			cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, ivParameterSpec);
+			byte[] doFinal = cipher.doFinal(Base64.getDecoder().decode(cipherText));
+			
+			return new String(doFinal);
+			
+			
+		} catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	// call this function cause error "Given final block not properly padded. Such issues can arise if a bad key is used during decryption."
+	// because key is not correc
+	public static String badKeyToDecrypt(String cipherText) {
+		try {
+			IvParameterSpec ivParameterSpec = new IvParameterSpec(initVector.getBytes());
+			SecretKeySpec secretKeySpec = new SecretKeySpec(key2.getBytes(), "AES");
 			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
 			cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, ivParameterSpec);
 			byte[] doFinal = cipher.doFinal(Base64.getDecoder().decode(cipherText));
