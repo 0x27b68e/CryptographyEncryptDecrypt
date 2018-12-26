@@ -11,7 +11,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-
+//refer https://www.devglan.com/corejava/java-aes-encypt-decrypt
 public class SymmetricKeyAlgorithm {
 	
 	public static void main(String[] args) {
