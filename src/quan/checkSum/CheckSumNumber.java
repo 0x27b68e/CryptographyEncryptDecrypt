@@ -57,7 +57,7 @@ public class CheckSumNumber {
 				if(hex.length() == 1) hexString.append('0');
 				hexString.append(hex);
 			}
-			return hexString.toString();
+			return hexString.toString(); //99514329186b2f6ae4a1329e7ee6c610a729636335174ac6b740f9028396fcc803d0e93863a7c3d90f86beee782f4f3f
 			
 		} catch (IOException | NoSuchAlgorithmException e) {
 			e.printStackTrace();

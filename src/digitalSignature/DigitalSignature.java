@@ -9,7 +9,7 @@ import java.security.SignatureException;
 import java.util.Base64;
 import java.util.Scanner;
 
-import CryptographyEncryptDecrypt.GenerateKeyPairUtils;
+import com.Utils.GenerateKeyPairUtils;
 
 public class DigitalSignature {
 

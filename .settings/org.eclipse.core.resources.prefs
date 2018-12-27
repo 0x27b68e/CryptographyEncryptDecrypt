@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
 encoding//src/CryptographyEncryptDecrypt/AsymmetricKeyAlgorithmRSA.java=UTF-8
-encoding//src/CryptographyEncryptDecrypt/GenerateKeyPairUtils.java=UTF-8
 encoding//src/CryptographyEncryptDecrypt/SymmetricKeyAlgorithm.java=UTF-8
+encoding//src/com/Utils/GenerateKeyPairUtils.java=UTF-8
+encoding//src/quan/logarithms/LogarithmsClass.java=UTF-8

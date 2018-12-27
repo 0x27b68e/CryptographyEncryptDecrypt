@@ -12,6 +12,8 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
+import com.Utils.GenerateKeyPairUtils;
+
 //refer https://viblo.asia/p/java-ma-hoa-va-giai-ma-voi-thuat-toan-rsa-bJzKmW3Xl9N#_ma-hoa-va-giai-ma-du-lieu-trong-javarsa--cach-thuc-hoat-dong-2
 public class AsymmetricKeyAlgorithmRSA {
 	/*public static File publicKeyFile = new File("D://client/publickey.rsa");
