@@ -20,9 +20,14 @@ public class LogarithmsClass {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Enter value to calculate logarithm:");
-		double nextDouble = scanner.nextDouble();
-		System.out.println("logirithm of " + nextDouble + " is " + Math.log(nextDouble));
+		System.out.println("Enter value of Base:");
+		double baseNumber = scanner.nextDouble();
+		
+		System.out.println("Enter the result:");
+		double exponentNumber  = scanner.nextDouble();
+		
+		double result = Math.log(exponentNumber)/Math.log(baseNumber);
+		System.out.println("exponent (số mủ) of base " + baseNumber + " of result " + exponentNumber + " is " + result);
 
 	}
 

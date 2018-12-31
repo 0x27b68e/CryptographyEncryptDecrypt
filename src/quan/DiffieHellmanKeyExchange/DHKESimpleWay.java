@@ -21,7 +21,7 @@ Step 6: Alice and Bob compute symmetric keys
 
 Step 7: 9 is the shared secret.*/
 
-public class Main {
+public class DHKESimpleWay {
 
 	//refer: https://www.geeksforgeeks.org/implementation-diffie-hellman-algorithm/
 	public static void main(String[] args) {

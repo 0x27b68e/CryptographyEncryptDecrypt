@@ -42,6 +42,7 @@ public class DigitalSignature {
 	
 	@SuppressWarnings("resource")
 	public static void main(String[] args) {
+		//get key from Database
 		PublicKey publicKey = GenerateKeyPairUtils.getPublicKey();
 		System.out.println("Public Key: " + publicKey.toString());
 		PrivateKey privateKey = GenerateKeyPairUtils.getPrivateKey();
